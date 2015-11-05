@@ -1,7 +1,7 @@
 /*
      File: MyTableViewController.m
  Abstract: The main table view controller of this app.
-  Version: 1.0
+  Version: 1.1
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -41,14 +41,14 @@
  STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  
- Copyright (C) 2008 Apple Inc. All Rights Reserved.
+ Copyright (C) 2009 Apple Inc. All Rights Reserved.
  
  */
 
 #import "MyTableViewController.h"
 
 @interface MyTableViewController ()
-@property (nonatomic, retain) NSArray *dataArray;
+@property (nonatomic, retain) NSMutableArray *dataArray;
 @end
 
 @implementation MyTableViewController
@@ -57,10 +57,21 @@
 
 - (void)viewDidLoad
 {
-	// load our data data from a plist file inside our app bundle
+	// load our data from a plist file inside our app bundle
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"tableData" ofType:@"plist"];
 	self.dataArray = [NSMutableArray arrayWithContentsOfFile:path];
 }
+
+
+// called after the view controller's view is released and set to nil.
+// For example, a memory warning which causes the view to be purged. Not invoked as a result of -dealloc.
+// So release any properties that are loaded in viewDidLoad or can be recreated lazily.
+//
+- (void)viewDidUnload
+{
+	self.dataArray = nil;
+}
+
 
 - (void)dealloc
 {	
@@ -76,11 +87,13 @@
 	return [dataArray count];
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[self tableView: self.tableView accessoryButtonTappedForRowWithIndexPath: indexPath];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -89,13 +102,13 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCustomCellID];
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kCustomCellID] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCustomCellID] autorelease];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	}
 	
 	NSMutableDictionary *item = [dataArray objectAtIndex:indexPath.row];
-	cell.text = [item objectForKey:@"text"];
+	cell.textLabel.text = [item objectForKey:@"text"];
 
 	[item setObject:cell forKey:@"cell"];
 	
@@ -116,6 +129,7 @@
 	return cell;
 }
 
+
 - (void)checkButtonTapped:(id)sender event:(id)event
 {
 	NSSet *touches = [event allTouches];
@@ -127,6 +141,7 @@
 		[self tableView: self.tableView accessoryButtonTappedForRowWithIndexPath: indexPath];
 	}
 }
+
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {	

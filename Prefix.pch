@@ -1,3 +1,7 @@
+//
+// Prefix header for all source files of the 'Accessory' target in the 'Accessory' project
+//
+
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
