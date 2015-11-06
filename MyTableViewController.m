@@ -1,7 +1,7 @@
 /*
      File: MyTableViewController.m
  Abstract: The main table view controller of this app.
-  Version: 1.1
+  Version: 1.2
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -41,7 +41,7 @@
  STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  
- Copyright (C) 2009 Apple Inc. All Rights Reserved.
+ Copyright (C) 2010 Apple Inc. All Rights Reserved.
  
  */
 
@@ -123,7 +123,7 @@
 	
 	// set the button's target to this table view controller so we can interpret touch events and map that to a NSIndexSet
 	[button addTarget:self action:@selector(checkButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
-	button.backgroundColor = [UIColor clearColor];
+	cell.backgroundColor = [UIColor clearColor];
 	cell.accessoryView = button;
 	
 	return cell;
